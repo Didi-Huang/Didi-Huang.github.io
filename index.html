@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="黄宏迪 - 东京理科大学物理学科 个人主页">
+    <meta name="description" content="黄宏迪 (Hongdi Huang) — 东京理科大学 物理学科 个人主页。物理实验、编程、Lab-Experiment-Assistant。">
+    <meta name="keywords" content="黄宏迪, Hongdi Huang, 东京理科大学, Physics, 物理, 实验, Python, LaTeX">
+    <meta name="author" content="黄宏迪">
+    <meta property="og:title" content="黄宏迪 | Hongdi Huang">
+    <meta property="og:description" content="东京理科大学 理学部第一部 物理学科 · Physics & Code">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://didi-huang.github.io">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="黄宏迪 | Hongdi Huang">
+    <meta name="twitter:description" content="东京理科大学 物理学科 · Physics & Code">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚛️</text></svg>">
     <title>黄宏迪 | Hongdi Huang</title>
     <style>
         /* === 全局重置 & 基础 === */
@@ -13,40 +24,74 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
-            background: #0f0f0f;
+            background: #0a0a0f;
             color: #e0e0e0;
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
         }
 
-        /* 背景微动渐变 */
+        /* === 动态背景 === */
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08), transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(244, 63, 94, 0.06), transparent 50%);
+                        radial-gradient(circle at 80% 20%, rgba(244, 63, 94, 0.06), transparent 50%),
+                        radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.04), transparent 40%);
             pointer-events: none;
             z-index: -1;
-            animation: bgShift 12s ease-in-out infinite alternate;
+            animation: bgShift 16s ease-in-out infinite alternate;
         }
 
         @keyframes bgShift {
-            0%   { background-position: 0% 0%; }
-            100% { background-position: 100% 100%; }
+            0%   { opacity: 0.6; }
+            50%  { opacity: 1; }
+            100% { opacity: 0.6; }
         }
 
         .container {
-            max-width: 720px;
-            padding: 2rem;
+            max-width: 740px;
+            padding: 2.5rem 2rem;
             text-align: center;
+        }
+
+        /* === 导航锚点 === */
+        .nav-dots {
+            position: fixed;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            z-index: 100;
+        }
+
+        .nav-dots a {
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-dots a:hover,
+        .nav-dots a.active {
+            background: rgba(99, 102, 241, 0.6);
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: scale(1.3);
         }
 
         /* === 头像 === */
@@ -65,7 +110,6 @@
             border-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* 无头像时用占位 */
         .avatar-placeholder {
             width: 120px;
             height: 120px;
@@ -80,6 +124,7 @@
             margin: 0 auto 1.5rem;
             border: 3px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            user-select: none;
         }
 
         .avatar-placeholder:hover {
@@ -117,7 +162,7 @@
         .bio {
             color: #d1d5db;
             font-size: 1rem;
-            max-width: 520px;
+            max-width: 540px;
             margin: 0 auto 2rem;
             padding: 0 1rem;
         }
@@ -126,7 +171,7 @@
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1.2rem;
+            gap: 1rem;
             flex-wrap: wrap;
             margin-bottom: 2.5rem;
         }
@@ -178,19 +223,124 @@
             transform: translateY(-2px);
         }
 
-        /* === 项目卡片 === */
+        /* === 区块标题 === */
+        section {
+            margin-bottom: 3rem;
+        }
+
         .section-title {
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 1.2rem;
             color: #f3f4f6;
+            position: relative;
+            display: inline-block;
         }
 
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, #6366f1, transparent);
+            border-radius: 1px;
+        }
+
+        /* === 教育经历时间线 === */
+        .timeline {
+            text-align: left;
+            position: relative;
+            padding-left: 1.5rem;
+            margin: 0 auto;
+            max-width: 480px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, #6366f1, #ec4899);
+            border-radius: 1px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.8rem;
+            padding-left: 1.2rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.4rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #6366f1;
+            border: 2px solid #0a0a0f;
+        }
+
+        .timeline-item .year {
+            font-size: 0.8rem;
+            color: #818cf8;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .timeline-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-bottom: 0.2rem;
+        }
+
+        .timeline-item p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        /* === 研究兴趣 === */
+        .interests {
+            display: flex;
+            justify-content: center;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .interests span {
+            padding: 0.5rem 1.2rem;
+            border-radius: 12px;
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.12);
+            font-size: 0.9rem;
+            color: #c7d2fe;
+            transition: all 0.3s ease;
+        }
+
+        .interests span:hover {
+            background: rgba(99, 102, 241, 0.18);
+            border-color: rgba(99, 102, 241, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* === 项目卡片 === */
         .projects {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
             text-align: left;
         }
 
@@ -215,6 +365,15 @@
             color: #e5e7eb;
         }
 
+        .project-card h3 a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .project-card h3 a:hover {
+            color: #a5b4fc;
+        }
+
         .project-card p {
             font-size: 0.85rem;
             color: #9ca3af;
@@ -235,6 +394,35 @@
             color: #a5b4fc;
         }
 
+        /* === 联系区块 === */
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-links a:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.25);
+            color: #a5b4fc;
+            transform: translateY(-2px);
+        }
+
         /* === 底部 === */
         footer {
             font-size: 0.8rem;
@@ -242,6 +430,7 @@
             margin-top: 2rem;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
         }
 
         footer a {
@@ -282,10 +471,10 @@
             animation: fadeInUp 0.8s ease forwards;
         }
 
-        .fade-in:nth-child(2) { animation-delay: 0.2s; }
-        .fade-in:nth-child(3) { animation-delay: 0.4s; }
-        .fade-in:nth-child(4) { animation-delay: 0.6s; }
-        .fade-in:nth-child(5) { animation-delay: 0.8s; }
+        .fade-in:nth-child(2) { animation-delay: 0.15s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.45s; }
+        .fade-in:nth-child(5) { animation-delay: 0.6s; }
 
         @keyframes fadeInUp {
             to {
@@ -294,105 +483,261 @@
             }
         }
 
+        /* === 滚动进入动画 === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* === 响应式 === */
         @media (max-width: 480px) {
-            h1 { font-size: 1.8rem; }
-            .container { padding: 1.5rem; }
-            .projects { grid-template-columns: 1fr; }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .container {
+                padding: 1.5rem 1.2rem;
+            }
+            .projects {
+                grid-template-columns: 1fr;
+            }
+            .nav-dots {
+                right: 0.6rem;
+                gap: 0.5rem;
+            }
+            .nav-dots a {
+                width: 8px;
+                height: 8px;
+            }
+            .timeline {
+                padding-left: 1.2rem;
+            }
+        }
+
+        /* === 打印样式 === */
+        @media print {
+            .nav-dots { display: none; }
+            body::before { display: none; }
+            body { background: #fff; color: #000; }
+            .project-card { break-inside: avoid; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 头像区 —— 如果你有头像图片，可以换成 <img class="avatar" src="头像链接" alt="头像"> -->
-        <div class="avatar-placeholder fade-in">HD</div>
 
-        <!-- 姓名 -->
+    <!-- 侧边导航 -->
+    <nav class="nav-dots" aria-label="页面导航">
+        <a href="#top" title="顶部" aria-label="顶部"></a>
+        <a href="#education" title="教育经历" aria-label="教育经历"></a>
+        <a href="#interests" title="研究兴趣" aria-label="研究兴趣"></a>
+        <a href="#projects" title="项目" aria-label="项目"></a>
+        <a href="#contact" title="联系" aria-label="联系"></a>
+    </nav>
+
+    <div class="container" id="top">
+
+        <!-- ======== 头部 ======== -->
+        <!-- 如果有头像图片，把下面这行取消注释，并删掉 avatar-placeholder 那行 -->
+        <!-- <img class="avatar fade-in" src="figures/avatar.jpg" alt="黄宏迪的头像"> -->
+        <div class="avatar-placeholder fade-in" aria-label="头像占位">HD</div>
+
         <h1 class="fade-in">黄宏迪 <span style="font-size:1.5rem; color:#9ca3af;">| Hongdi Huang</span></h1>
 
-        <!-- 打字机副标题 -->
         <p class="tagline fade-in">
             <span class="typewriter">Physics @ Tokyo University of Science</span>
         </p>
 
         <div class="divider fade-in"></div>
 
-        <!-- 简介 -->
         <p class="bio fade-in">
-            东京理科大学 理学部第一部 物理学科 大三在读。<br>
-            热爱物理实验与编程，用代码辅助科学研究。
+            东京理科大学 理学部第一部 物理学科 三年级在读。<br>
+            用物理理解世界，用代码构建工具。
         </p>
 
-        <!-- 社交链接 -->
+        <!-- ======== 社交链接 ======== -->
         <div class="social-links fade-in">
-            <a href="https://github.com/Didi-Huang" target="_blank" rel="noopener noreferrer" title="GitHub">
-                <!-- GitHub SVG 图标 -->
+            <!-- GitHub -->
+            <a href="https://github.com/Didi-Huang" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
                 </svg>
             </a>
-            <a href="mailto:huang@example.com" title="邮箱">
+            <!-- Email -->
+            <a href="mailto:huanghongdi@example.com" title="邮箱" aria-label="发送邮件">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2"/>
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
                 </svg>
             </a>
-            <!-- 你可以继续加：推特、掘金、B站、知乎等 -->
+            <!-- X / Twitter -->
+            <a href="https://x.com/DidiHuang" target="_blank" rel="noopener noreferrer" title="X (Twitter)" aria-label="X">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+            <!-- Bilibili -->
+            <a href="https://space.bilibili.com/" target="_blank" rel="noopener noreferrer" title="Bilibili" aria-label="Bilibili">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.267.573-.4.92-.4.347 0 .653.133.92.4L9.333 4.36a.652.652 0 0 1 .214.293h4.906a.652.652 0 0 1 .214-.293l2.933-2.787c.267-.267.573-.4.92-.4.347 0 .653.133.92.4.267.267.4.573.4.92 0 .347-.133.653-.4.92l-1.174 1.12.027.12zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773H5.333zm2.4 2.506c.373 0 .698.129.973.387.276.258.414.578.414.96v1.813c0 .382-.138.702-.414.96-.275.258-.6.387-.973.387-.356 0-.671-.129-.947-.387s-.4-.578-.4-.96v-1.813c0-.382.133-.702.4-.96.276-.258.591-.387.947-.387zm8.534 0c.373 0 .698.129.973.387.276.258.414.578.414.96v1.813c0 .382-.138.702-.414.96-.275.258-.6.387-.973.387-.356 0-.671-.129-.947-.387s-.4-.578-.4-.96v-1.813c0-.382.133-.702.4-.96.276-.258.591-.387.947-.387z"/>
+                </svg>
+            </a>
+            <!-- 知乎 -->
+            <a href="https://www.zhihu.com/people/" target="_blank" rel="noopener noreferrer" title="知乎" aria-label="知乎">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14.736 21.314c-.258.18-.166.464.046.464h3.636c.596 0 1.08-.484 1.08-1.08v-5.356c0-.336-.192-.48-.48-.48-.644 0-1.304.294-1.928.78v5.672h-1.568a.268.268 0 0 1-.212-.092l-.574-.732v-4.848c0-.232-.15-.44-.384-.44h-1.54c-.224 0-.384.244-.384.44v4.848l-.574.732a.272.272 0 0 1-.212.092h-1.568v-5.672c-.624-.486-1.284-.78-1.928-.78-.288 0-.48.144-.48.48v5.356c0 .596.484 1.08 1.08 1.08h3.636c.212 0 .304-.284.046-.464l-1.11-.778h1.476v3.156h-1.476l1.11-.778z"/>
+                </svg>
+            </a>
         </div>
 
-        <!-- 技能 -->
-        <div class="skills fade-in">
-            <span>Python</span>
-            <span>LaTeX</span>
-            <span>PyQt6</span>
-            <span>MATLAB</span>
-            <span>HTML/CSS</span>
-            <span>Git</span>
-        </div>
-
-        <!-- 项目展示 -->
-        <h2 class="section-title fade-in">✨ 项目</h2>
-        <div class="projects fade-in">
-            <div class="project-card">
-                <h3><a href="https://github.com/Didi-Huang/lea" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;">🔬 lea ↗</a></h3>
-                <p>Lab-Experiment-Assistant · 基于 PyQt6 的实验室实验辅助工具，辅助 Python 和 LaTeX 的实验报告撰写与发表。</p>
-                <div class="project-tags">
-                    <span>PyQt6</span>
-                    <span>Python</span>
-                    <span>LaTeX</span>
+        <!-- ======== 教育经历 ======== -->
+        <section id="education" class="reveal">
+            <h2 class="section-title">🎓 教育经历</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="year">2023 — 至今</div>
+                    <h3>东京理科大学 · Tokyo University of Science</h3>
+                    <p>理学部第一部 物理学科 三年级在读</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">2020 — 2023</div>
+                    <h3>高中</h3>
+                    <p>理科方向 · 物理 / 数学 / 编程</p>
                 </div>
             </div>
-            <div class="project-card">
-                <h3><a href="https://github.com/Didi-Huang/sophomore-physics-lab-reports" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;">📄 大二物理实验报告 ↗</a></h3>
-                <p>大二物理实验的 LaTeX 报告 & Python 代码合集，包含实验数据分析和可视化。</p>
-                <div class="project-tags">
-                    <span>Python</span>
-                    <span>LaTeX</span>
-                    <span>Physics</span>
+        </section>
+
+        <!-- ======== 研究兴趣 ======== -->
+        <section id="interests" class="reveal">
+            <h2 class="section-title">🔬 研究兴趣</h2>
+            <div class="interests">
+                <span>凝聚态物理</span>
+                <span>计算物理</span>
+                <span>实验数据分析</span>
+                <span>科学可视化</span>
+                <span>开源工具</span>
+            </div>
+        </section>
+
+        <!-- ======== 技能 ======== -->
+        <section class="reveal">
+            <h2 class="section-title">🛠️ 技能</h2>
+            <div class="skills">
+                <span>Python</span>
+                <span>LaTeX</span>
+                <span>PyQt6</span>
+                <span>MATLAB</span>
+                <span>HTML/CSS</span>
+                <span>Git</span>
+                <span>科学计算</span>
+                <span>数据分析</span>
+            </div>
+        </section>
+
+        <!-- ======== 项目展示 ======== -->
+        <section id="projects" class="reveal">
+            <h2 class="section-title">✨ 项目</h2>
+            <div class="projects">
+                <div class="project-card">
+                    <h3><a href="https://github.com/Didi-Huang/lea" target="_blank" rel="noopener noreferrer">🔬 lea ↗</a></h3>
+                    <p>Lab-Experiment-Assistant · 基于 PyQt6 的实验室实验辅助工具，覆盖实验报告撰写、数据处理与 LaTeX 导出。</p>
+                    <div class="project-tags">
+                        <span>PyQt6</span>
+                        <span>Python</span>
+                        <span>LaTeX</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3><a href="https://github.com/Didi-Huang/sophomore-physics-lab-reports" target="_blank" rel="noopener noreferrer">📄 物理实验报告集 ↗</a></h3>
+                    <p>大二物理实验的 LaTeX 报告 &amp; Python 数据分析代码合集，涵盖力学、热学、电磁学和光学实验。</p>
+                    <div class="project-tags">
+                        <span>Python</span>
+                        <span>LaTeX</span>
+                        <span>Physics</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3>🚧 更多项目开发中</h3>
+                    <p>持续探索物理与编程的交叉领域，积累更多开源项目。</p>
+                    <div class="project-tags">
+                        <span>In Progress</span>
+                    </div>
                 </div>
             </div>
-            <div class="project-card">
-                <h3>🚧 更多项目开发中</h3>
-                <p>持续探索物理与编程的交叉领域，敬请期待。</p>
-                <div class="project-tags">
-                    <span>In Progress</span>
-                </div>
-            </div>
-        </div>
+        </section>
 
-        <!-- 友情链接 -->
-        <h2 class="section-title fade-in">🔗 友情链接</h2>
-        <div class="projects fade-in" style="margin-bottom: 2.5rem; justify-content: center; display: flex; flex-direction: column; align-items: center;">
-            <div class="project-card" style="max-width: 400px; width: 100%; text-align: center;">
-                <h3><a href="https://hafnium-chen.github.io/" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;">🌐 Hafnium Chen ↗</a></h3>
-                <p>友情链接</p>
+        <!-- ======== 友情链接 ======== -->
+        <section class="reveal">
+            <h2 class="section-title">🔗 友情链接</h2>
+            <div class="contact-links" style="margin-bottom: 1.5rem;">
+                <a href="https://hafnium-chen.github.io/" target="_blank" rel="noopener noreferrer">
+                    🌐 Hafnium Chen
+                </a>
             </div>
-        </div>
+        </section>
 
-        <!-- 底部 -->
+        <!-- ======== 联系 ======== -->
+        <section id="contact" class="reveal">
+            <h2 class="section-title">📬 联系我</h2>
+            <div class="contact-links">
+                <a href="mailto:huanghongdi@example.com">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    📧 发送邮件
+                </a>
+                <a href="https://github.com/Didi-Huang" target="_blank" rel="noopener noreferrer">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    GitHub
+                </a>
+            </div>
+        </section>
+
+        <!-- ======== 底部 ======== -->
         <footer>
-            <p>© 2026 <a href="https://github.com/Didi-Huang">黄宏迪</a> · Physics & Code</p>
+            <p>© 2026 <a href="https://github.com/Didi-Huang">黄宏迪</a> · Physics &amp; Code</p>
         </footer>
+
     </div>
+
+    <script>
+        // === 滚动观察：区块进入视口时触发动画 ===
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(el => observer.observe(el));
+
+        // === 导航点高亮 ===
+        const sections = document.querySelectorAll('section');
+        const navDots = document.querySelectorAll('.nav-dots a');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navDots.forEach(dot => {
+                        dot.classList.toggle('active', dot.getAttribute('href') === '#' + id);
+                    });
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '-80px 0px 0px 0px'
+        });
+
+        sections.forEach(s => sectionObserver.observe(s));
+    </script>
 </body>
 </html>
